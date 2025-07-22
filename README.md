@@ -1,6 +1,8 @@
 A library for Material 3 friendly item pickers for Jetpack Compose.
 Currently, you can download it on Jitpack.
 
+
+
 [![](https://jitpack.io/v/eidam-slices/material-pickers.svg)](https://jitpack.io/#eidam-slices/material-pickers)
 
 ### Vertical Picker
@@ -29,3 +31,22 @@ Currently, you can download it on Jitpack.
  - (TODO) modifier: Modifier = Modifier - not implemented yet, in future, it will define picker's padding, etc.
  - (TODO) textOffset: Dp = 0.dp - not implemented yet, in future it will define texts offset on Y axis, for example +2.dp or -2.dp, will be useful for creating double pickers
 <img width="368" height="173" alt="image" src="https://github.com/user-attachments/assets/576bab0e-92d9-441d-b14e-652b3bccffe5" />
+
+
+
+#### How to add it to your project:
+
+ You need to enable Jitpack repositories first:
+```
+ repositories {
+  mavenCentral()
+  maven { url = uri("https://jitpack.io") }
+ }
+```
+ And after that, add this dependency:
+```
+ dependencies {
+        implementation("com.github.eidam-slices:material-pickers:0.1.0")
+ } 
+```
+Then, you're good to go ✅
