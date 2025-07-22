@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Material Pickers"
 include(":material-pickers")
+include(":material-pickers-demo")

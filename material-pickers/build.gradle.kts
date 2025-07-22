@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("maven-publish")
 }
 
 android {
@@ -27,6 +28,18 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.eidam-slices"
+                artifactId = "material-pickers"
+            }
+        }
     }
 }
 
