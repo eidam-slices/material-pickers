@@ -58,7 +58,7 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 ```
-###2. Add the dependency
+### 2. Add the dependency
 ```kotlin
 dependencies {
     implementation("com.github.eidam-slices:material-pickers:0.1.0")
