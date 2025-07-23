@@ -1,52 +1,68 @@
-A library for Material 3 friendly item pickers for Jetpack Compose.
-Currently, you can download it on Jitpack.
+# 📦 Material Pickers
 
+A library providing Material 3–friendly item pickers for Jetpack Compose.
 
+Currently available via **JitPack**:
 
 [![](https://jitpack.io/v/eidam-slices/material-pickers.svg)](https://jitpack.io/#eidam-slices/material-pickers)
 
-### Vertical Picker
-- basic Material-looking item picker
-- parameters:
- - items: List<T> - list of T, typically strings or integers, but it can be anything else, the object must have toString() function
- - value: T - defines its value, if you change it, it will automatically scroll to the position of it in the list (if there is a position)
- - onValueChange: (T) -> Unit - defines what will happen when the value changes, typically, you want to update its value, but you can do more
- - itemWidth: Dp = 56.dp - defines width of a single picker item (so whole VerticalPicker width)
- - itemHeight: Dp = 40.dp - defines height of a single picker item (so final VerticalPicker height is equal to 3 times this value)
- - shape: Shape = MaterialTheme.shapes.large - specifies background surface shape of the picker, you can play with it and create something like double or triple pickers
- - (TODO) modifier: Modifier = Modifier - not implemented yet, in future, it will define picker's padding, etc.
- - (TODO) textOffset: Dp = 0.dp - not implemented yet, in future it will define texts offset on X axis, for example +2.dp or -2.dp, will be useful for creating double pickers
-<img width="100" height="271" alt="image" src="https://github.com/user-attachments/assets/b929b490-f30e-4f4f-90e8-998274447ff9" />
+---
 
+## 🔽 Vertical Picker
 
-### Horizontal Picker
-- basic Material-looking item picker
-- parameters:
- - items: List<T> - list of T, typically strings or integers, but it can be anything else, the object must have toString() function
- - value: T - defines its value, if you change it, it will automatically scroll to the position of it in the list (if there is a position)
- - onValueChange: (T) -> Unit - defines what will happen when the value changes, typically, you want to update its value, but you can do more
- - itemWidth: Dp = 56.dp - defines width of a single picker item (so final width is equal to 3 times this value)
- - itemHeight: Dp = 40.dp - defines height of a single picker item (so whole HorizontalPicker height)
- - shape: Shape = MaterialTheme.shapes.large - specifies background surface shape of the picker, you can play with it and create something like double or triple pickers
- - (TODO) modifier: Modifier = Modifier - not implemented yet, in future, it will define picker's padding, etc.
- - (TODO) textOffset: Dp = 0.dp - not implemented yet, in future it will define texts offset on Y axis, for example +2.dp or -2.dp, will be useful for creating double pickers
-<img width="368" height="173" alt="image" src="https://github.com/user-attachments/assets/576bab0e-92d9-441d-b14e-652b3bccffe5" />
+A basic, Material-style vertical item picker.
 
+**Parameters:**
 
+- `items: List<T>` – list of items (typically strings or integers, but any type with a proper `toString()` is supported)
+- `value: T` – the currently selected value; the picker will automatically scroll to this value if it's in the list
+- `onValueChange: (T) -> Unit` – callback triggered when the selected value changes
+- `itemWidth: Dp = 56.dp` – width of each picker item (defines the overall picker width)
+- `itemHeight: Dp = 40.dp` – height of each picker item (the final picker height is 3× this value)
+- `shape: Shape = MaterialTheme.shapes.large` – shape of the picker's background; customize it to build double/triple pickers
+- `(TODO) modifier: Modifier = Modifier` – not implemented yet; will allow controlling padding and other layout aspects
+- `(TODO) textOffset: Dp = 0.dp` – not implemented yet; will allow shifting item text on the X axis (useful for multi-pickers)
 
-#### How to add it to your project:
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/b929b490-f30e-4f4f-90e8-998274447ff9" width="100" height="271" alt="Vertical Picker Preview" />
+</div>
 
- You need to enable Jitpack repositories first:
+---
+
+## ▶️ Horizontal Picker
+
+A basic, Material-style horizontal item picker.
+
+**Parameters:**
+
+- `items: List<T>` – list of items (typically strings or integers, but any type with a proper `toString()` is supported)
+- `value: T` – the currently selected value; the picker will automatically scroll to this value if it's in the list
+- `onValueChange: (T) -> Unit` – callback triggered when the selected value changes
+- `itemWidth: Dp = 56.dp` – width of each picker item (the final picker width is 3× this value)
+- `itemHeight: Dp = 40.dp` – height of each picker item (defines the overall picker height)
+- `shape: Shape = MaterialTheme.shapes.large` – shape of the picker's background; customize it to build double/triple pickers
+- `(TODO) modifier: Modifier = Modifier` – not implemented yet; will allow controlling padding and other layout aspects
+- `(TODO) textOffset: Dp = 0.dp` – not implemented yet; will allow shifting item text on the Y axis (useful for multi-pickers)
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/576bab0e-92d9-441d-b14e-652b3bccffe5" width="368" height="173" alt="Horizontal Picker Preview" />
+</div>
+
+---
+
+## 🛠 How to Use
+
+### 1. Add JitPack repository
+
+```kotlin
+repositories {
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
 ```
- repositories {
-  mavenCentral()
-  maven { url = uri("https://jitpack.io") }
- }
+###2. Add the dependency
+```kotlin
+dependencies {
+    implementation("com.github.eidam-slices:material-pickers:0.1.0")
+}
 ```
- And after that, add this dependency:
-```
- dependencies {
-        implementation("com.github.eidam-slices:material-pickers:0.1.0")
- } 
-```
-Then, you're good to go ✅
