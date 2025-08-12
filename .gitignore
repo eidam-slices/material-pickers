@@ -23,3 +23,5 @@ local.properties
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/runConfigurations.xml
 /.idea/vcs.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/deviceManager.xml

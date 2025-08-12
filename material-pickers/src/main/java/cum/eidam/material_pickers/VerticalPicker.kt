@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -52,6 +53,7 @@ fun <T> VerticalPicker(
 
     val density = LocalDensity.current
     // calculations:
+
     val itemHeightPx = with(density) { itemHeight.toPx() }
     val verticalPickerPadding = itemHeight * (PICKER_ITEMS_VISIBLE / 2)
 
@@ -139,7 +141,8 @@ fun <T> VerticalPicker(
                         text = item.toString(),
                         selected = selected,
 
-                        modifier = Modifier.height(itemHeight)
+                        modifier = Modifier.height(itemHeight),
+                        textModifier = Modifier.offset(x = textOffset)
                     ) { // onClick:
                         // todo: or index ?
                         if (value == item) return@PickerItem
