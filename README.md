@@ -22,9 +22,8 @@ A basic, Material-style vertical item picker.
 - `shape: Shape = MaterialTheme.shapes.large` – shape of the picker's background; customize it to build double/triple pickers
 - `(TODO) modifier: Modifier = Modifier` – not implemented yet; will allow controlling padding and other layout aspects
 - `(TODO) textOffset: Dp = 0.dp` – not implemented yet; will allow shifting item text on the X axis (useful for multi-pickers)
-
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/b929b490-f30e-4f4f-90e8-998274447ff9" width="100" height="271" alt="Vertical Picker Preview" />
+  <img src="https://github.com/user-attachments/assets/e07b4709-fabe-4a98-8a52-93b573b672a9" width="100" height="271" alt="Vertical Picker Preview" />
 </div>
 
 ---
@@ -43,9 +42,8 @@ A basic, Material-style horizontal item picker.
 - `shape: Shape = MaterialTheme.shapes.large` – shape of the picker's background; customize it to build double/triple pickers
 - `(TODO) modifier: Modifier = Modifier` – not implemented yet; will allow controlling padding and other layout aspects
 - `(TODO) textOffset: Dp = 0.dp` – not implemented yet; will allow shifting item text on the Y axis (useful for multi-pickers)
-
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/576bab0e-92d9-441d-b14e-652b3bccffe5" width="368" height="173" alt="Horizontal Picker Preview" />
+  <img src="https://github.com/user-attachments/assets/2e59d71f-7f69-4b48-ab47-22a826ae4c02" width="368" height="173" alt="Horizontal Picker Preview" />
 </div>
 
 ---
@@ -60,7 +58,7 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 ```
-###2. Add the dependency
+### 2. Add the dependency
 ```kotlin
 dependencies {
     implementation("com.github.eidam-slices:material-pickers:0.1.0")
