@@ -16,11 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import cum.eidam.material_pickers.DoubleVerticalPicker
 import cum.eidam.material_pickers.HorizontalPicker
 import cum.eidam.material_pickers.VerticalPicker
 
 @Composable
-fun ExampleDemoScreen(modifier: Modifier = Modifier) {
+fun ExampleDemoScreen(
+    modifier: Modifier = Modifier,
+    onNavigate: (String) -> Unit = { _ -> },
+) {
 
     val context = LocalContext.current
 
@@ -35,6 +39,9 @@ fun ExampleDemoScreen(modifier: Modifier = Modifier) {
         var verticalValue by remember { mutableStateOf(exampleItems.first()) }
         var horizontalValue by remember { mutableStateOf(exampleItems.first()) }
 
+
+        var valueLeft by remember { mutableStateOf(exampleItems.first()) }
+        var valueRight by remember { mutableStateOf(exampleItems.first()) }
 
 
         Spacer(Modifier.height(36.dp))
@@ -53,6 +60,11 @@ fun ExampleDemoScreen(modifier: Modifier = Modifier) {
                 if (exampleItems.contains(number)) {
                     verticalValue = number
                     horizontalValue = number
+
+                    valueLeft = number
+                    valueRight = number
+
+
                 }
                 else {
                     Toast.makeText(
@@ -82,6 +94,21 @@ fun ExampleDemoScreen(modifier: Modifier = Modifier) {
             items = exampleItems,
             value = horizontalValue,
             onValueChange = { horizontalValue = it },
+        )
+
+
+        Spacer(Modifier.height(24.dp))
+
+
+
+        DoubleVerticalPicker(
+            itemsLeft = exampleItems,
+            valueLeft = valueLeft,
+            onValueChangeLeft = { valueLeft = it },
+
+            itemsRight = exampleItems,
+            valueRight = valueRight,
+            onValueChangeRight = { valueRight = it },
         )
 
 

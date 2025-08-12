@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -136,7 +137,8 @@ fun <T> HorizontalPicker(
                     PickerItem(
                         text = item.toString(),
                         selected = selected,
-                        modifier = Modifier.width(itemWidth).height(itemHeight)
+                        modifier = Modifier.width(itemWidth).height(itemHeight),
+                        textModifier = Modifier.offset(y = textOffset)
                     ) { // onClick ->
                         if (value == item) return@PickerItem
 
