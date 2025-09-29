@@ -1,32 +1,34 @@
 package cum.eidam.material_pickers_demo
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cum.eidam.material_pickers.HorizontalPicker
 import cum.eidam.material_pickers.VerticalPicker
+import org.w3c.dom.Text
+
 
 @Composable
 fun SinglePickersDemoScreen(
     modifier: Modifier = Modifier,
     onNavigate: (String) -> Unit = { _ -> },
 ) {
-    val context = LocalContext.current
 
 
     Column(
@@ -34,62 +36,88 @@ fun SinglePickersDemoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        val sharedItems = remember { List(25) { (it + 1).toString() } }
+
+        var verticalIndex by remember { mutableIntStateOf(0) }
+        var horizontalIndex by remember { mutableIntStateOf(0) }
 
         Spacer(Modifier.height(48.dp))
 
-        val items = remember { List(26) { it.toString() } }
-        var verticalValue by remember { mutableStateOf(items.first()) }
-        var horizontalValue by remember { mutableStateOf(items.first()) }
-
         VerticalPicker(
-            items = items,
-            value = verticalValue,
-            onValueChange = { verticalValue = it },
+            items = sharedItems,
+            selectedIndex = verticalIndex,
+            onItemSelected = { verticalIndex = it },
+            modifier = Modifier
+                .width(52.dp)
+                .height(128.dp)
+        )
+        Spacer(Modifier.height(4.dp))
+
+        Text(
+            text = "Vertical Picker",
+            style = MaterialTheme.typography.labelMedium,
         )
 
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(16.dp))
 
         HorizontalPicker(
-            items = items,
-            value = horizontalValue,
-            onValueChange = { horizontalValue = it },
+            items = sharedItems,
+            selectedIndex = horizontalIndex,
+            onItemSelected = { horizontalIndex = it },
+            modifier = Modifier
+                .width(128.dp)
+                .height(52.dp)
+        )
+        Spacer(Modifier.height(4.dp))
+
+        Text(
+            text = "Horizontal Picker",
+            style = MaterialTheme.typography.labelMedium,
         )
 
-        Spacer(Modifier.height(36.dp))
+        Spacer(Modifier.height(32.dp))
 
 
-        var textValue by remember { mutableStateOf("") }
-        TextField(
-            value = textValue,
-            onValueChange = {
-                textValue = it
-            },
-            modifier = Modifier.padding(horizontal = 56.dp),
-            label = { Text("Enter valid value for pickers") }
-        )
 
-        TextButton(
-            onClick = {
-                if (items.contains(textValue)) {
-                    verticalValue = textValue
-                    horizontalValue = textValue
-                }
-                else {
-                    Toast.makeText(context, "Value not found in items", Toast.LENGTH_SHORT).show()
-                }
-            }
-        ) {
-            Text("Change Pickers Value")
+        Row{
+            Button(
+                onClick = {
+                    verticalIndex = (verticalIndex - 1).coerceIn(sharedItems.indices)
+                    horizontalIndex = (horizontalIndex - 1).coerceIn(sharedItems.indices)
+                },
+                enabled = verticalIndex != sharedItems.indices.first
+            ) { Text("-") }
+
+            Spacer(Modifier.width(4.dp))
+
+            Button(
+                onClick = {
+                    verticalIndex = (verticalIndex + 1).coerceIn(sharedItems.indices)
+                    horizontalIndex = (horizontalIndex + 1).coerceIn(sharedItems.indices)
+
+                },
+                enabled = verticalIndex != sharedItems.indices.last
+
+            ) { Text("+") }
+
         }
-
 
         Spacer(Modifier.weight(1f))
 
 
-        FilledTonalButton(
-            modifier = Modifier.padding(vertical = 4.dp),
-            onClick = { onNavigate("double") }
-        ) { Text("Double Pickers Demo") }
+        ExtendedFloatingActionButton(
+            onClick = {
+                onNavigate("double")
+            }
+        ) {
+            Text("Go to Double Pickers Demo")
+        }
+
+        Spacer(Modifier.height(12.dp))
+
+
+
     }
+
 
 }

@@ -1,164 +1,133 @@
 package cum.eidam.material_pickers
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNot
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import cum.eidam.material_pickers.defaults.PickerDefaults
+import cum.eidam.material_pickers.defaults.SinglePickerDefaults
+import cum.eidam.material_pickers.picker_parts.PickerItem
+import cum.eidam.material_pickers.style.SinglePickerStyle
 
-
-const val PICKER_ITEMS_VISIBLE = 3
-
+/**
+ * Vertical wheel-style picker allowing users to choose an item by scrolling.
+ *
+ * This overload is index-driven and therefore works with non‑unique item values (duplicates are allowed).
+ * The caller supplies the current [selectedIndex] and is notified via [onItemSelected] when the
+ * centered (highlighted) index changes due to user scroll or programmatic animation.
+ *
+ * Requires an odd [itemsVisible] count so a single item can be perfectly centered.
+ *
+ * Styling:
+ * - Visual aspects (surface, indicator, text colors, spacing offset) come from [style].*
+ *
+ * Performance:
+ * - Only visible items are composed (LazyList). Scrolling animations are handled by a lightweight scroller.
+ *
+ * @param T Type of the items (converted to string via toString for display).
+ * @param items List of items to display.
+ * @param selectedIndex Currently selected index (must be within [items] bounds; out-of-range values are ignored for scrolling but not enforced here).
+ * @param onItemSelected Callback with the new selected index after scroll settles.
+ * @param modifier Optional layout modifier.
+ * @param style Style tokens (colors, shapes, text offsets) for rendering.
+ * @param itemsVisible Odd number of visible rows (default = [SinglePickerDefaults.ITEMS_VISIBLE]).
+ *
+ * @throws IllegalArgumentException if [itemsVisible] is not odd.
+ */
 @Composable
 fun <T> VerticalPicker(
-    modifier: Modifier = Modifier,
     items: List<T>,
-    value: T,
-    onValueChange: (T) -> Unit,
+    selectedIndex: Int,
+    onItemSelected: (index: Int) -> Unit,
+    modifier: Modifier = Modifier,
 
-    itemWidth: Dp = 56.dp,
-    itemHeight: Dp = 40.dp,
+    style: SinglePickerStyle = SinglePickerDefaults.style(),
 
-    shape: Shape = MaterialTheme.shapes.large,
-    textOffset: Dp = 0.dp,
+    itemsVisible: Int = SinglePickerDefaults.ITEMS_VISIBLE,
 ) {
 
-    val density = LocalDensity.current
-    // calculations:
+    require(itemsVisible % 2 == 1) { "itemsVisible must be an odd number to have a centered selection" }
 
-    val itemHeightPx = with(density) { itemHeight.toPx() }
-    val verticalPickerPadding = itemHeight * (PICKER_ITEMS_VISIBLE / 2)
-
-    val centerItemIndexOffset = (PICKER_ITEMS_VISIBLE / 2) - 1
-
-
-    // lazy column behavior:
-    val listState = rememberLazyListState()
-    val flingBehavior = rememberSnapFlingBehavior(listState)
-
-    val coroutineScope = rememberCoroutineScope()
-
-    val scroller = remember {
-        PickerScroller(
-            itemsVisible = PICKER_ITEMS_VISIBLE,
-            listState = listState,
-            coroutineScope = coroutineScope,
-            density = density,
-            itemBoxSize = itemHeight
-        ) {/* TODO: implement onExternalScroll*/ }
-    }
-
-    var internalValueChangeLock by remember { mutableStateOf(false) }
-
-    LaunchedEffect(value) {
-        if (!internalValueChangeLock) {
-            val index = items.indexOf(value)
-            scroller.externallyScrollToItem(index)
-        } else internalValueChangeLock = false
-    }
-
-    LaunchedEffect(listState, value)  {
-        snapshotFlow {
-            listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset
-        }.map { (index, offsetPx) ->
-            val halfItemSizePx = itemHeightPx / 2
-            val indexOffset = if (offsetPx > halfItemSizePx) 1
-            else 0
-
-            index + indexOffset + centerItemIndexOffset
-        }.distinctUntilChanged()
-            .filter { it in items.indices }
-            .filterNot { items[it] == value }
-            .collect { index ->
-                internalValueChangeLock = true
-                onValueChange(items[index])
-            }
-    }
-
-
-    Surface(
-        modifier = Modifier
-            .width(itemWidth)
-            .height(itemHeight * PICKER_ITEMS_VISIBLE),
-        shape = shape,
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-    ) {
-        Box {
-
-            Box(
+    GenericPicker(
+        modifier = modifier,
+        items = items,
+        selectedIndex = selectedIndex,
+        onItemSelected = onItemSelected,
+        orientation = Orientation.Vertical,
+        itemsVisible = itemsVisible,
+        item = {
+            PickerItem(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(itemHeight)
-                    .align(Alignment.Center)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .width(it.size.width)
+                    .height(it.size.height),
+                selected = it.selected,
+                label = it.label,
+                onClick = it.onClick,
+                selectedTextColor = style.selectedItemTextColor,
+                unselectedTextColor = style.unselectedItemTextColor,
+                offset = DpOffset(x = style.textOffset, y = 0.dp)
             )
+        },
+        selectionIndicator = { size ->
+            PickerDefaults.SelectionIndicator(size)
+        },
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-
-                state = listState,
-                flingBehavior = flingBehavior,
-
-                contentPadding = PaddingValues(
-                    vertical = verticalPickerPadding
-                ),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-
-                items(items) { item ->
-                    val selected = item == value
-                    val index = items.indexOf(item)
-
-                    PickerItem(
-                        text = item.toString(),
-                        selected = selected,
-
-                        modifier = Modifier.height(itemHeight),
-                        textModifier = Modifier.offset(x = textOffset)
-                    ) { // onClick:
-                        // todo: or index ?
-                        if (value == item) return@PickerItem
-
-                        coroutineScope.launch {
-                            scroller.scrollToItem(index)
-                        }
-
-                    }
-
-                }
-
-
-            }
+        background = {
+            Surface(
+                shape = style.surfaceShape,
+                color = style.surfaceColor,
+                content = {}
+            )
         }
-    }
+    )
 
+}
+
+
+/**
+ * Convenience overload of [VerticalPicker] operating on value identity instead of index.
+ *
+ * This variant enforces that all [items] are unique (using equality). It maps the provided
+ * [selectedItem] to its index and delegates to the index-based picker. Use this when you prefer
+ * working with domain objects directly. If your list can contain duplicates, use the index-based
+ * overload instead to avoid ambiguity.
+ *
+ * @param T Type of the items (must provide meaningful equality for uniqueness check).
+ * @param items List of UNIQUE items.
+ * @param selectedItem Currently selected item (must be a member of [items]).
+ * @param onItemSelected Callback with the newly selected item.
+ * @param modifier Optional layout modifier.
+ * @param style Style tokens (colors, shapes, text offsets) for rendering.
+ * @param itemsVisible Odd number of visible rows.
+ *
+ * @throws IllegalArgumentException if [itemsVisible] is not odd.
+ * @throws IllegalArgumentException if [items] are not unique.
+ */
+@Composable
+fun <T> VerticalPicker(
+    items: List<T>,
+    selectedItem: T,
+    onItemSelected: (T) -> Unit,
+
+    modifier: Modifier = Modifier,
+
+    style: SinglePickerStyle = SinglePickerDefaults.style(),
+    itemsVisible: Int = SinglePickerDefaults.ITEMS_VISIBLE,
+) {
+    require(itemsVisible % 2 == 1) { "itemsVisible must be an odd number to have a centered selection" }
+    require(items.distinct().size == items.size) { "Items for this variant must be unique. Use the index-based overload if you need duplicate items." }
+
+    VerticalPicker(
+        items = items,
+        selectedIndex = items.indexOf(selectedItem),
+        onItemSelected = { onItemSelected(items[it]) },
+        modifier = modifier,
+        style = style,
+        itemsVisible = itemsVisible,
+    )
 
 }
