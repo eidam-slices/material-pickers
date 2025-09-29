@@ -15,11 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.DpSize
-import cum.eidam.material_pickers.picker_parts.PickerItemData
 import cum.eidam.material_pickers.logic.PickerScroller
 import cum.eidam.material_pickers.logic.calculateItemSize
 import cum.eidam.material_pickers.logic.observeSelectedIndex
 import cum.eidam.material_pickers.picker_parts.LazyPickerList
+import cum.eidam.material_pickers.picker_parts.PickerItemData
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNot
 
@@ -128,7 +128,8 @@ fun <T> GenericPicker(
             LaunchedEffect(selectedIndex) {
                 if (!internalValueChangeLock && selectedIndex in items.indices) {
                     scroller.externallyScrollToItem(selectedIndex)
-                } else {
+                }
+                else {
                     internalValueChangeLock = false
                 }
             }
@@ -162,7 +163,10 @@ fun <T> GenericPicker(
                     listState = listState,
                     properties = properties,
                 ) {
-                    itemsIndexed(items) { index, item ->
+                    itemsIndexed(
+                        items = items,
+                        key = { index, item -> "$index-$item" }
+                    ) { index, item ->
                         val selected = index == selectedIndex
                         item(
                             PickerItemData(
