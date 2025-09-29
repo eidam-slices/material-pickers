@@ -29,6 +29,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 afterEvaluate {
