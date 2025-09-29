@@ -25,3 +25,5 @@ local.properties
 /.idea/vcs.xml
 /.idea/deploymentTargetSelector.xml
 /.idea/deviceManager.xml
+/.idea/copilot.data.migration.agent.xml
+/.idea
