@@ -3,14 +3,12 @@ package cum.eidam.material_pickers_demo
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -22,7 +20,7 @@ import cum.eidam.material_pickers.DoubleVerticalPicker
 @Composable
 fun DoublePickersDemoScreen(
     modifier: Modifier = Modifier,
-    onNavigate: (String) -> Unit = { _ -> }
+    onNavigate: (String) -> Unit = { _ -> },
 ) {
 
 
@@ -31,61 +29,55 @@ fun DoublePickersDemoScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Spacer(Modifier.height(24.dp))
-
-        val itemsA = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J")
-        val itemsB = List(20) { it + 1 }
-
-
-        var valueLeft by remember { mutableStateOf(itemsA.first()) }
-        var valueRight by remember { mutableIntStateOf(itemsB.first()) }
-
-        var valueTop by remember { mutableStateOf(itemsA.first()) }
-        var valueBottom by remember { mutableIntStateOf(itemsB.first()) }
-
-
-        Text(
-            text = "Double Vertical Picker",
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(vertical = 4.dp)
-        )
-        DoubleVerticalPicker(
-            itemsLeft = itemsA,
-            valueLeft = valueLeft,
-            onValueChangeLeft = { valueLeft = it },
-
-            itemsRight = itemsB,
-            valueRight = valueRight,
-            onValueChangeRight = { valueRight = it },
-        )
-
         Spacer(Modifier.height(48.dp))
 
-        Text(
-            text = "Double Horizontal Picker",
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.padding(vertical = 4.dp)
+        val sharedItems1 = remember { List(25) { (it + 1).toString() } }
+        val sharedItems2 = remember { ('A'..'Z').map { it.toString() } }
+
+        var verticalLeftIndex by remember { mutableIntStateOf(0) }
+        var verticalRightIndex by remember { mutableIntStateOf(0) }
+        DoubleVerticalPicker(
+            itemsLeft = sharedItems1,
+            selectedIndexLeft = verticalLeftIndex,
+            onSelectedIndexChangeLeft = { verticalLeftIndex = it },
+            itemsRight = sharedItems2,
+            selectedIndexRight = verticalRightIndex,
+            onSelectedIndexChangeRight = { verticalRightIndex = it },
+            modifier = Modifier
+                .height(128.dp)
+                .width(96.dp)
         )
+
+        Spacer(Modifier.height(16.dp))
+
+
+        var horizontalTopIndex by remember { mutableIntStateOf(0) }
+        var horizontalBottomIndex by remember { mutableIntStateOf(0) }
 
         DoubleHorizontalPicker(
-            itemsTop = itemsA,
-            valueTop = valueTop,
-            onValueChangeTop = { valueTop = it },
-
-            itemsBottom = itemsB,
-            valueBottom = valueBottom,
-            onValueChangeBottom = { valueBottom = it },
+            itemsTop = sharedItems1,
+            selectedIndexTop = horizontalTopIndex,
+            onSelectedIndexChangeTop = { horizontalTopIndex = it },
+            itemsBottom = sharedItems2,
+            selectedIndexBottom = horizontalBottomIndex,
+            onSelectedIndexChangeBottom = { horizontalBottomIndex = it },
+            modifier = Modifier
+                .height(96.dp)
+                .width(128.dp)
         )
+
+
+
 
         Spacer(Modifier.weight(1f))
 
+        ExtendedFloatingActionButton(
+            onClick = {
+                onNavigate("single")
+            }
+        ) { Text("Go back") }
 
-        FilledTonalButton(
-            modifier = Modifier.padding(vertical = 4.dp),
-            onClick = { onNavigate("single") },
-        ) {
-            Text("Go Back")
-        }
+        Spacer(Modifier.height(12.dp))
     }
 
 }
