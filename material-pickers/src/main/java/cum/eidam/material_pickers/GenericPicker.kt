@@ -136,7 +136,9 @@ fun <T> GenericPicker(
 
             // Observe list scroll -> propagate index
             val centerItemIndexOffset = (itemsVisible / 2) - 1
-            LaunchedEffect(listState, selectedIndex) {
+
+
+            LaunchedEffect(listState, selectedIndex, items) {
                 listState.observeSelectedIndex(
                     itemSizePx = properties.mainAxisSizePx,
                     centerItemIndexOffset = centerItemIndexOffset
