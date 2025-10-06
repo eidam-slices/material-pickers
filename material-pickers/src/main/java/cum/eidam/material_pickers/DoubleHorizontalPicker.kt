@@ -4,8 +4,10 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cum.eidam.material_pickers.defaults.DoublePickerDefaults
 import cum.eidam.material_pickers.style.DoublePickerStyle
 
@@ -56,7 +58,8 @@ fun <TT, TB> DoubleHorizontalPicker(
         HorizontalPicker(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .offset(y = (0.2).dp),
             items = itemsTop,
             selectedIndex = selectedIndexTop,
             onItemSelected = onSelectedIndexChangeTop,
@@ -67,7 +70,8 @@ fun <TT, TB> DoubleHorizontalPicker(
         HorizontalPicker(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .offset(y = (-0.2).dp),
             items = itemsBottom,
             selectedIndex = selectedIndexBottom,
             onItemSelected = onSelectedIndexChangeBottom,
