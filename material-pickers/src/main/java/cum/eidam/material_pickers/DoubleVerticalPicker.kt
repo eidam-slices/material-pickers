@@ -4,8 +4,10 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cum.eidam.material_pickers.defaults.DoublePickerDefaults
 import cum.eidam.material_pickers.style.DoublePickerStyle
 
@@ -50,7 +52,8 @@ fun <TL, TR> DoubleVerticalPicker(
             onItemSelected = onSelectedIndexChangeLeft,
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .offset(x = (0.2).dp),
             style = style.asSingle(DoublePickerStyle.Part.First),
             itemsVisible = itemsVisible,
         )
@@ -60,7 +63,8 @@ fun <TL, TR> DoubleVerticalPicker(
             onItemSelected = onSelectedIndexChangeRight,
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .offset(x = (-0.2).dp),
             style = style.asSingle(DoublePickerStyle.Part.Second),
             itemsVisible = itemsVisible,
         )
