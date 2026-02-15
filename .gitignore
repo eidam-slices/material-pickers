@@ -27,3 +27,4 @@ local.properties
 /.idea/deviceManager.xml
 /.idea/copilot.data.migration.agent.xml
 /.idea
+/.kotlin/metadata/*
