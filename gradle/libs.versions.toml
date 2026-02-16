@@ -7,7 +7,7 @@ activity-compose = "1.12.4"
 compose-multiplatform = "1.10.1"
 compose-material3 = "1.9.0"
 
-#vanniktech-maven-publish = "0.34.0"
+vanniktech-maven-publish = "0.36.0"
 
 [libraries]
 # Multiplatform:
@@ -34,7 +34,7 @@ kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref 
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-# vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }
+ vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech-maven-publish" }
 
 # Android
 android-application = { id = "com.android.application", version.ref = "agp" }
