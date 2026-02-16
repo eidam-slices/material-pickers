@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.eidam-slices"
-version = "0.4.0"
+version = "0.4.1"
 
 mavenPublishing {
     publishToMavenCentral()
@@ -65,6 +65,11 @@ kotlin {
             implementation(libs.compose.foundation)
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs) {
+                exclude("org.jetbrains.compose.material")
+            }
         }
     }
 
