@@ -110,7 +110,7 @@ fun <T> GenericPicker(
             var valueChangeLock by remember { mutableStateOf(false) }
 
             // Animated scroller utility
-            val scroller = remember {
+            val scroller = remember(properties.mainAxisSizePx) {
                 PickerScroller(
                     listState = listState,
                     coroutineScope = coroutineScope,

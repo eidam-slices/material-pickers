@@ -104,6 +104,14 @@ fun App() {
                     onSelectedIndexChangeBottom = { value3 = it },
                 )
             }
+
+            var value by remember { mutableStateOf(0) }
+            HorizontalPicker(
+                modifier = Modifier.fillMaxSize(),
+                items = letters,
+                selectedIndex = value,
+                onItemSelected = { value = it }
+            )
         }
     }
 }
